@@ -1,3 +1,4 @@
+
 public class Duck implements FieldItem {
 
     @Override
@@ -9,5 +10,4 @@ public class Duck implements FieldItem {
     public char getType() {
         return 'D';
     }
-    
 }
