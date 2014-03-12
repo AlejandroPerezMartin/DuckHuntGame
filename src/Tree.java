@@ -1,9 +1,16 @@
 
 public class Tree implements FieldItem {
 
+    public Tree(HuntField huntField) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void start() {
+    }
+
     @Override
     public boolean fired() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return false;
     }
 
     @Override
