@@ -71,7 +71,7 @@ public class HuntField {
 
         for (FieldItem[] fieldItems : board) {
             for (FieldItem fieldItem : fieldItems) {
-                if (fieldItem.getType() == itemType) {
+                if (fieldItem.getType() == itemType && fieldItem != null) {
                     count++;
                 }
             }
