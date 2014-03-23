@@ -1,14 +1,17 @@
 
 public class HuntField {
 
-    private int[][] board;
     private final int rows;
     private final int columns;
+    private final FieldItem board[][];
 
     public HuntField(int rows, int columns) {
         this.rows = rows;
         this.columns = columns;
-        this.board = new int[rows][columns];
+        this.board = new FieldItem[rows][columns];
+        for (FieldItem[] fieldItems : board) {
+            fieldItems = null;
+        }
     }
 
     public int getXLength() {
@@ -19,8 +22,16 @@ public class HuntField {
         return columns;
     }
 
-    public boolean setItem(HuntField huntField, Position position) {
-        return false;
+    public boolean setItem(FieldItem fieldItem, Position position) {
+        if (checkLimits(position) || board[position.getX()][position.getY()] != null) {
+            return false;
+        }
+        board[position.getX()][position.getY()] = fieldItem;
+        return true;
+    }
+
+    public boolean checkLimits(Position position) {
+        return (position.getX() >= 0 && position.getX() < getXLength() && position.getY() >= 0 && position.getY() < getYLength());
     }
 
     public boolean shot(Position position) {
