@@ -9,6 +9,7 @@ public class HuntField {
         this.rows = rows;
         this.columns = columns;
         this.board = new FieldItem[rows][columns];
+
         for (FieldItem[] fieldItems : board) {
             for (FieldItem fieldItem : fieldItems) {
                 fieldItem = null;
@@ -24,26 +25,23 @@ public class HuntField {
         return columns;
     }
 
-    public boolean setItem(FieldItem fieldItem, Position position) {
-        if (!checkLimits(position) || board[position.getX()][position.getY()] != null) {
-            return false;
+    public synchronized boolean setItem(FieldItem fieldItem, Position position) {
+        if (checkLimits(position) && board[position.getX()][position.getY()] == null) {
+            board[position.getX()][position.getY()] = fieldItem;
+            return true;
         }
-        board[position.getX()][position.getY()] = fieldItem;
-        return true;
+
+        return false;
     }
 
-    public boolean checkLimits(Position position) {
-        return (position.getX() >= 0 && position.getX() < rows && position.getY() >= 0 && position.getY() < columns);
-    }
-
-    public boolean shot(Position position) {
+    public synchronized boolean shot(Position position) {
         if (checkLimits(position) && board[position.getX()][position.getY()] != null) {
             return board[position.getX()][position.getY()].fired();
         }
         return false;
     }
 
-    public boolean removeItem(Position position) {
+    public synchronized boolean removeItem(Position position) {
         if (checkLimits(position) && board[position.getX()][position.getY()] != null) {
             board[position.getX()][position.getY()] = null;
             return true;
@@ -58,7 +56,7 @@ public class HuntField {
         return ' ';
     }
 
-    public boolean moveItem(FieldItem fieldItem, Position oldPosition, Position newPosition) {
+    public synchronized boolean moveItem(FieldItem fieldItem, Position oldPosition, Position newPosition) {
         if (!checkLimits(newPosition) || !checkLimits(oldPosition) || board[newPosition.getX()][newPosition.getY()] != null) {
             return false;
         }
@@ -86,17 +84,22 @@ public class HuntField {
     public String toString() {
         String boardString = "";
 
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns; j++) {
-                if (board[i][j] == null) {
+        for (FieldItem[] fieldItems : board) {
+            for (FieldItem fieldItem : fieldItems) {
+                if (fieldItem == null) {
                     boardString += " ";
-                } else {
-                    boardString += board[i][j].getType();
+                }
+                else {
+                    boardString += fieldItem.getType();
                 }
             }
             boardString += "\n";
         }
-
         return boardString;
     }
+
+    public boolean checkLimits(Position position) {
+        return (position.getX() >= 0 && position.getX() < rows && position.getY() >= 0 && position.getY() < columns);
+    }
+
 }
