@@ -10,7 +10,9 @@ public class HuntField {
         this.columns = columns;
         this.board = new FieldItem[rows][columns];
         for (FieldItem[] fieldItems : board) {
-            fieldItems = null;
+            for (FieldItem fieldItem : fieldItems) {
+                fieldItem = null;
+            }
         }
     }
 
@@ -43,7 +45,10 @@ public class HuntField {
     }
 
     public char getItemType(Position position) {
-        return 'X';
+        if (board[position.getX()][position.getY()] != null) {
+            return board[position.getX()][position.getY()].getType();
+        }
+        return ' ';
     }
 
     public boolean moveItem(Position oldPosition, Position newPosition) {
@@ -51,11 +56,34 @@ public class HuntField {
     }
 
     public int getNumberOfItems(char itemType) {
-        return 0;
+        int count = 0;
+
+        for (FieldItem[] fieldItems : board) {
+            for (FieldItem fieldItem : fieldItems) {
+                if (fieldItem.getType() == itemType) {
+                    count++;
+                }
+            }
+        }
+
+        return count;
     }
 
     @Override
     public String toString() {
-        return "";
+        String boardString = "";
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                if (board[i][j] == null) {
+                    boardString += " ";
+                } else {
+                    boardString += board[i][j].getType();
+                }
+            }
+            boardString += "\n";
+        }
+
+        return boardString;
     }
 }

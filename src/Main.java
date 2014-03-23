@@ -16,9 +16,11 @@ public class Main {
         for (int i = 0; i < numberOfTrees; i++) {
             new Tree(f);
         }
+
         for (int i = 0; i < numberOfDucks; i++) {
             new Duck(f).start();
         }
+
         for (int i = 0; i < numberOfHunters; i++) {
             new Hunter(f).start();
         }
