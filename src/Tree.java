@@ -8,9 +8,9 @@ public class Tree implements FieldItem {
 
     public Tree(HuntField huntField) {
         this.huntField = huntField;
-        while (this.huntField.setItem(this, position) == false) {
+        do {
             this.position = getRandomPosition();
-        }
+        } while (huntField.setItem(this, position) == false);
     }
 
     private Position getRandomPosition() {

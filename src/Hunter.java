@@ -12,9 +12,9 @@ public class Hunter extends Thread implements FieldItem {
         this.hunted = 0;
         this.huntField = huntField;
         this.dead = true;
-        while (this.huntField.setItem(this, position) == false) {
+        do {
             this.position = getRandomPosition();
-        }
+        } while (huntField.setItem(this, position) == false);
     }
 
     private Position getRandomPosition() {

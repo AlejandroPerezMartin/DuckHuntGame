@@ -33,7 +33,7 @@ public class HuntField {
     }
 
     public boolean checkLimits(Position position) {
-        return (position.getX() >= 0 && position.getX() < getXLength() && position.getY() >= 0 && position.getY() < getYLength());
+        return (position.getX() >= 0 && position.getX() < rows && position.getY() >= 0 && position.getY() < columns);
     }
 
     public boolean shot(Position position) {
