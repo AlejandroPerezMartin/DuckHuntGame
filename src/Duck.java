@@ -1,16 +1,16 @@
 
 import java.util.Random;
 
-public class Duck implements FieldItem {
+public class Duck extends Thread implements FieldItem {
 
     private final int hunted;
-    private final boolean alive;
+    private final boolean dead;
     private Position position;
     private final HuntField huntField;
 
     public Duck(HuntField huntField) {
         this.hunted = 0;
-        this.alive = true;
+        this.dead = true;
         this.huntField = huntField;
         while (this.huntField.setItem(this, position) == false) {
             this.position = getRandomPosition();
@@ -22,8 +22,8 @@ public class Duck implements FieldItem {
         return new Position(random.nextInt(huntField.getXLength()), random.nextInt(huntField.getYLength()));
     }
 
-    public boolean isAlive() {
-        return alive;
+    public boolean isDead() {
+        return dead;
     }
 
     @Override

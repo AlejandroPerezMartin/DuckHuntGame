@@ -25,7 +25,7 @@ public class HuntField {
     }
 
     public boolean setItem(FieldItem fieldItem, Position position) {
-        if (checkLimits(position) || board[position.getX()][position.getY()] != null) {
+        if (!checkLimits(position) || board[position.getX()][position.getY()] != null) {
             return false;
         }
         board[position.getX()][position.getY()] = fieldItem;
@@ -37,10 +37,17 @@ public class HuntField {
     }
 
     public boolean shot(Position position) {
+        if (checkLimits(position) && board[position.getX()][position.getY()] != null) {
+            return board[position.getX()][position.getY()].fired();
+        }
         return false;
     }
 
     public boolean removeItem(Position position) {
+        if (checkLimits(position) && board[position.getX()][position.getY()] != null) {
+            board[position.getX()][position.getY()] = null;
+            return true;
+        }
         return false;
     }
 
@@ -51,8 +58,14 @@ public class HuntField {
         return ' ';
     }
 
-    public boolean moveItem(Position oldPosition, Position newPosition) {
-        return false;
+    public boolean moveItem(FieldItem fieldItem, Position oldPosition, Position newPosition) {
+        if (!checkLimits(newPosition) || !checkLimits(oldPosition) || board[newPosition.getX()][newPosition.getY()] != null) {
+            return false;
+        }
+
+        board[oldPosition.getX()][oldPosition.getY()] = null;
+        board[newPosition.getX()][newPosition.getY()] = fieldItem;
+        return true;
     }
 
     public int getNumberOfItems(char itemType) {

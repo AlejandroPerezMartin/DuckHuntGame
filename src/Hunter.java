@@ -1,17 +1,17 @@
 
 import java.util.Random;
 
-public class Hunter implements FieldItem {
+public class Hunter extends Thread implements FieldItem {
 
     private final int hunted;
-    private final boolean alive;
+    private final boolean dead;
     private Position position;
     private final HuntField huntField;
 
     public Hunter(HuntField huntField) {
         this.hunted = 0;
         this.huntField = huntField;
-        this.alive = true;
+        this.dead = true;
         while (this.huntField.setItem(this, position) == false) {
             this.position = getRandomPosition();
         }
@@ -22,8 +22,13 @@ public class Hunter implements FieldItem {
         return new Position(random.nextInt(huntField.getXLength()), random.nextInt(huntField.getYLength()));
     }
 
-    public boolean isAlive() {
-        return alive;
+    public boolean isDead() {
+        return dead;
+    }
+
+    @Override
+    public void run() {
+        super.start(); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
