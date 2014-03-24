@@ -1,8 +1,4 @@
 
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 public class HuntField {
 
     private final int rows;
@@ -69,16 +65,15 @@ public class HuntField {
         while (board[newPosition.getX()][newPosition.getY()] != null) {
             try {
                 wait(1000);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(HuntField.class.getName()).log(Level.SEVERE, null, ex);
             }
-            board[oldPosition.getX()][oldPosition.getY()] = null;
-            board[newPosition.getX()][newPosition.getY()] = fieldItem;
-
-            notify();
-            return true;
+            catch (InterruptedException exc) {
+            }
         }
-        return false;
+        board[oldPosition.getX()][oldPosition.getY()] = null;
+        board[newPosition.getX()][newPosition.getY()] = fieldItem;
+
+        notify();
+        return true;
     }
 
     public int getNumberOfItems(char itemType) {
