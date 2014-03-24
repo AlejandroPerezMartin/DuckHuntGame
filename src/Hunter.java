@@ -54,13 +54,11 @@ public class Hunter extends Thread implements FieldItem {
         Random random = new Random();
         Position newShotPosition = null;
 
-        while (alive() && huntField.getNumberOfItems('D') > 0) {
+        while (alive && huntField.getNumberOfItems('D') > 0) {
 
             try {
                 Thread.sleep(random.nextInt(101));
-            } catch (InterruptedException e) {
-                return;
-            }
+            } catch (InterruptedException exc) {}
 
             switch (shotDirection) {
                 case 0:
@@ -89,10 +87,8 @@ public class Hunter extends Thread implements FieldItem {
                 shotDirection = 0;
             }
             
-            huntField.shot(newShotPosition);
-
             // New shot position is a duck
-            if (huntField.getItemType(newShotPosition) == 'D') {
+            if (huntField.shot(newShotPosition)) {
                 hunted++;
                 // Move hunter to duck position to catch the prey
                 if (huntField.moveItem(this, position, newShotPosition)) {

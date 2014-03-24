@@ -72,13 +72,13 @@ public class HuntField {
             } catch (InterruptedException ex) {
                 Logger.getLogger(HuntField.class.getName()).log(Level.SEVERE, null, ex);
             }
+            board[oldPosition.getX()][oldPosition.getY()] = null;
+            board[newPosition.getX()][newPosition.getY()] = fieldItem;
+
+            notify();
+            return true;
         }
-
-        board[oldPosition.getX()][oldPosition.getY()] = null;
-        board[newPosition.getX()][newPosition.getY()] = fieldItem;
-
-        notify();
-        return true;
+        return false;
     }
 
     public int getNumberOfItems(char itemType) {

@@ -1,7 +1,5 @@
 
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Duck extends Thread implements FieldItem {
 
@@ -48,13 +46,12 @@ public class Duck extends Thread implements FieldItem {
         Position newPosition = null;
         Random random = new Random();
 
-        while (alive()) {
+        while (alive) {
             
             try {            
                 Thread.sleep(random.nextInt(301));
-            } catch (InterruptedException ex) {
-                return;
             }
+            catch (InterruptedException exc) {}
 
             randomMove = random.nextInt(4);
 
