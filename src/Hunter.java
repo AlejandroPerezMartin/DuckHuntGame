@@ -79,12 +79,11 @@ public class Hunter extends Thread implements FieldItem {
                     break;
             }
 
-            // Autoincrement shotDirection variable
+            // Autoincrement variable
             shotDirection = (shotDirection + 1) % 4;
 
-            // New shot position is a duck
+            // If the new position is 'shootable', the hunter moves to that position to catch the prey
             if (huntField.shot(newShotPosition)) {
-                // Move hunter to duck position to catch the prey
                 if (huntField.moveItem(this, position, newShotPosition)) {
                     position = newShotPosition;
                 }

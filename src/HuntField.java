@@ -62,13 +62,22 @@ public class HuntField {
             return false;
         }
 
-        while (board[newPosition.getX()][newPosition.getY()] != null) {
+        long startTime = System.currentTimeMillis();
+        long endTime = System.currentTimeMillis();
+        
+        while ((endTime - startTime <= 6000) && board[newPosition.getX()][newPosition.getY()] != null) {
+            endTime = System.currentTimeMillis();
             try {
-                wait(1000);
+                wait();
             }
             catch (InterruptedException exc) {
             }
         }
+        
+        if (endTime - startTime > 6000) {
+            return false;
+        }
+        
         board[oldPosition.getX()][oldPosition.getY()] = null;
         board[newPosition.getX()][newPosition.getY()] = fieldItem;
 
