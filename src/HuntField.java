@@ -41,8 +41,8 @@ public class HuntField {
         return false;
     }
 
-    public synchronized boolean removeItem(Position position) {
-        if (checkLimits(position) && board[position.getX()][position.getY()] != null) {
+    public synchronized boolean removeItem(FieldItem fieldItem, Position position) {
+        if (checkLimits(position) && board[position.getX()][position.getY()] == fieldItem) {
             board[position.getX()][position.getY()] = null;
             return true;
         }
@@ -50,7 +50,7 @@ public class HuntField {
     }
 
     public char getItemType(Position position) {
-        if (board[position.getX()][position.getY()] != null) {
+        if (checkLimits(position) && board[position.getX()][position.getY()] != null) {
             return board[position.getX()][position.getY()].getType();
         }
         return ' ';
@@ -71,13 +71,17 @@ public class HuntField {
 
         for (FieldItem[] fieldItems : board) {
             for (FieldItem fieldItem : fieldItems) {
-                if (fieldItem.getType() == itemType && fieldItem != null) {
+                if (fieldItem != null && fieldItem.getType() == itemType) {
                     count++;
                 }
             }
         }
 
         return count;
+    }
+
+    public boolean checkLimits(Position position) {
+        return (position.getX() >= 0 && position.getX() < rows && position.getY() >= 0 && position.getY() < columns);
     }
 
     @Override
@@ -88,8 +92,7 @@ public class HuntField {
             for (FieldItem fieldItem : fieldItems) {
                 if (fieldItem == null) {
                     boardString += " ";
-                }
-                else {
+                } else {
                     boardString += fieldItem.getType();
                 }
             }
@@ -97,9 +100,4 @@ public class HuntField {
         }
         return boardString;
     }
-
-    public boolean checkLimits(Position position) {
-        return (position.getX() >= 0 && position.getX() < rows && position.getY() >= 0 && position.getY() < columns);
-    }
-
 }

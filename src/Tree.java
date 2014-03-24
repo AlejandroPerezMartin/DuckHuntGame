@@ -3,8 +3,8 @@ import java.util.Random;
 
 public class Tree implements FieldItem {
 
-    private final HuntField huntField;
     private Position position;
+    private final HuntField huntField;
 
     public Tree(HuntField huntField) {
         this.huntField = huntField;
@@ -27,5 +27,4 @@ public class Tree implements FieldItem {
     public char getType() {
         return 'T';
     }
-
 }

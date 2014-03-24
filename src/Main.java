@@ -2,6 +2,7 @@
 public class Main {
 
     public static void printField(HuntField field) {
+        System.out.print("\033[H\033[2K");
         System.out.print("Hunters " + field.getNumberOfItems('H')
                 + " Ducks " + field.getNumberOfItems('D') + "\n");
         System.out.print(field);

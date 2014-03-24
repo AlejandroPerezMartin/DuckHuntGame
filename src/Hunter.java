@@ -19,41 +19,41 @@ public class Hunter extends Thread implements FieldItem {
         } while (huntField.setItem(this, position) == false);
     }
 
-    private Position getRandomPosition() {
-        Random random = new Random();
-        return new Position(random.nextInt(huntField.getXLength()), random.nextInt(huntField.getYLength()));
-    }
-
-    public boolean alive() {
-        return alive;
+    @Override
+    public char getType() {
+        return 'H';
     }
 
     @Override
     public boolean fired() {
-        if (alive()) {
+        if (alive) {
             alive = false;
             return true;
         }
         return false;
     }
 
-    @Override
-    public char getType() {
-        return 'H';
+    public boolean alive() {
+        return alive;
     }
 
     public int hunted() {
         return hunted;
     }
 
+    private Position getRandomPosition() {
+        Random random = new Random();
+        return new Position(random.nextInt(huntField.getXLength()), random.nextInt(huntField.getYLength()));
+    }
+
     @Override
     public void run() {
-        int shotDirection = 0;
-        Position newShotPosition = null;
+        int shotDirection = 0; // by default, first shot is up
         Random random = new Random();
+        Position newShotPosition = null;
 
         while (alive && huntField.getNumberOfItems('D') > 0) {
-            
+
             try {
                 Thread.sleep(random.nextInt(101));
             } catch (InterruptedException ex) {
@@ -79,21 +79,26 @@ public class Hunter extends Thread implements FieldItem {
                     break;
             }
 
+            huntField.shot(newShotPosition);
+
+            // Next shot direction
             shotDirection++;
+
+            // If counter equals 4, shot direction is changed to default value 0 (shoot up)
             if (shotDirection == 4) {
                 shotDirection = 0;
             }
 
-            huntField.shot(newShotPosition);
-
+            // If 
             if (huntField.getItemType(newShotPosition) == 'D') {
                 hunted++;
+                // Move hunter to duck position to catch the prey
                 if (huntField.moveItem(this, position, newShotPosition)) {
                     position = newShotPosition;
                 }
             }
-            
         }
+        // Remove hunter if shot or there are no more ducks
+        huntField.removeItem(this, position);
     }
-
 }

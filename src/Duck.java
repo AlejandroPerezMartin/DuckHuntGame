@@ -17,18 +17,9 @@ public class Duck extends Thread implements FieldItem {
         } while (huntField.setItem(this, position) == false);
     }
 
-    private Position getRandomPosition() {
-        Random random = new Random();
-        return new Position(random.nextInt(huntField.getXLength()), random.nextInt(huntField.getYLength()));
-    }
-
     @Override
     public char getType() {
         return 'D';
-    }
-
-    public boolean alive() {
-        return alive;
     }
 
     @Override
@@ -40,10 +31,19 @@ public class Duck extends Thread implements FieldItem {
         return false;
     }
 
+    public boolean alive() {
+        return alive;
+    }
+
+    private Position getRandomPosition() {
+        Random random = new Random();
+        return new Position(random.nextInt(huntField.getXLength()), random.nextInt(huntField.getYLength()));
+    }
+
     @Override
     public void run() {
-        Position newPosition = null;
         int randomMove = 0;
+        Position newPosition = null;
         Random random = new Random();
 
         while (alive) {
@@ -74,10 +74,12 @@ public class Duck extends Thread implements FieldItem {
                     break;
             }
 
+            // Duck moves if new surrounding position is empty
             if (huntField.moveItem(this, position, newPosition)) {
                 position = newPosition;
             }
         }
+        // Remove duck if shot
+        huntField.removeItem(this, newPosition);
     }
-
 }
