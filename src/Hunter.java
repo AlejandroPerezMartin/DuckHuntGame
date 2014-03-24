@@ -56,7 +56,9 @@ public class Hunter extends Thread implements FieldItem {
 
             try {
                 Thread.sleep(random.nextInt(101));
-            } catch (InterruptedException exc) {}
+            }
+            catch (InterruptedException exc) {
+            }
 
             switch (shotDirection) {
                 case 0:
@@ -76,22 +78,17 @@ public class Hunter extends Thread implements FieldItem {
                     newShotPosition = new Position(position.getX() - 1, position.getY());
                     break;
             }
-            
-            // Next shot direction
-            shotDirection++;
 
-            // If counter is greater than 3, shot direction is changed to default value 0 (shoot up)
-            if (shotDirection > 3) {
-                shotDirection = 0;
-            }
-            
+            // Autoincrement shotDirection variable
+            shotDirection = (shotDirection + 1) % 4;
+
             // New shot position is a duck
             if (huntField.shot(newShotPosition)) {
-                hunted++;
                 // Move hunter to duck position to catch the prey
                 if (huntField.moveItem(this, position, newShotPosition)) {
                     position = newShotPosition;
                 }
+                hunted++;
             }
         }
         // Remove hunter if shot or there are no more ducks

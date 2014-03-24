@@ -47,11 +47,12 @@ public class Duck extends Thread implements FieldItem {
         Random random = new Random();
 
         while (alive) {
-            
-            try {            
+
+            try {
                 Thread.sleep(random.nextInt(301));
             }
-            catch (InterruptedException exc) {}
+            catch (InterruptedException exc) {
+            }
 
             randomMove = random.nextInt(4);
 

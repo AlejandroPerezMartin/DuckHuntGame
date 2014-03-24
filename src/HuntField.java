@@ -102,7 +102,8 @@ public class HuntField {
             for (FieldItem fieldItem : fieldItems) {
                 if (fieldItem == null) {
                     boardString += " ";
-                } else {
+                }
+                else {
                     boardString += fieldItem.getType();
                 }
             }
