@@ -1,4 +1,8 @@
 
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class HuntField {
 
     private final int rows;
@@ -57,12 +61,32 @@ public class HuntField {
     }
 
     public synchronized boolean moveItem(FieldItem fieldItem, Position oldPosition, Position newPosition) {
-        if (!checkLimits(newPosition) || !checkLimits(oldPosition) || board[newPosition.getX()][newPosition.getY()] != null) {
+
+        if (!checkLimits(newPosition) || !checkLimits(oldPosition) || board[oldPosition.getX()][oldPosition.getY()] != fieldItem) {
             return false;
+        }
+
+        long startTime = new Date().getTime();
+        long endTime = new Date().getTime();
+
+        while ((endTime - startTime < 6000) && board[newPosition.getX()][newPosition.getY()] != null) {
+            endTime = new Date().getTime();
+        }
+
+        if (endTime - startTime > 6000) {
+            return false;
+        }
+
+        try {
+            wait();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(HuntField.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         board[oldPosition.getX()][oldPosition.getY()] = null;
         board[newPosition.getX()][newPosition.getY()] = fieldItem;
+
+        notify();
         return true;
     }
 

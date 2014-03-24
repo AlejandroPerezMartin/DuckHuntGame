@@ -1,4 +1,7 @@
 
+import java.util.Date;
+
+
 public class Main {
 
     public static void printField(HuntField field) {
@@ -30,7 +33,7 @@ public class Main {
             Thread.sleep(200);
             printField(f);
         }
-
+        
         printField(f);
     }
 }

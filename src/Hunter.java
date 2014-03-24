@@ -14,6 +14,7 @@ public class Hunter extends Thread implements FieldItem {
         this.hunted = 0;
         this.huntField = huntField;
         this.alive = true;
+        // Do-while solves error of while loop accessing an invalid position
         do {
             this.position = getRandomPosition();
         } while (huntField.setItem(this, position) == false);
@@ -26,7 +27,7 @@ public class Hunter extends Thread implements FieldItem {
 
     @Override
     public boolean fired() {
-        if (alive) {
+        if (alive()) {
             alive = false;
             return true;
         }
@@ -41,6 +42,7 @@ public class Hunter extends Thread implements FieldItem {
         return hunted;
     }
 
+    // http://lineadecodigo.com/java/generar-un-numero-aleatorio/
     private Position getRandomPosition() {
         Random random = new Random();
         return new Position(random.nextInt(huntField.getXLength()), random.nextInt(huntField.getYLength()));
@@ -52,12 +54,12 @@ public class Hunter extends Thread implements FieldItem {
         Random random = new Random();
         Position newShotPosition = null;
 
-        while (alive && huntField.getNumberOfItems('D') > 0) {
+        while (alive() && huntField.getNumberOfItems('D') > 0) {
 
             try {
                 Thread.sleep(random.nextInt(101));
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Duck.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InterruptedException e) {
+                return;
             }
 
             switch (shotDirection) {
@@ -78,18 +80,18 @@ public class Hunter extends Thread implements FieldItem {
                     newShotPosition = new Position(position.getX() - 1, position.getY());
                     break;
             }
-
-            huntField.shot(newShotPosition);
-
+            
             // Next shot direction
             shotDirection++;
 
-            // If counter equals 4, shot direction is changed to default value 0 (shoot up)
-            if (shotDirection == 4) {
+            // If counter is greater than 3, shot direction is changed to default value 0 (shoot up)
+            if (shotDirection > 3) {
                 shotDirection = 0;
             }
+            
+            huntField.shot(newShotPosition);
 
-            // If 
+            // New shot position is a duck
             if (huntField.getItemType(newShotPosition) == 'D') {
                 hunted++;
                 // Move hunter to duck position to catch the prey
