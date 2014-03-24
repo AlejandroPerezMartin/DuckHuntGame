@@ -66,21 +66,12 @@ public class HuntField {
             return false;
         }
 
-        long startTime = new Date().getTime();
-        long endTime = new Date().getTime();
-
-        while ((endTime - startTime < 6000) && board[newPosition.getX()][newPosition.getY()] != null) {
-            endTime = new Date().getTime();
-        }
-
-        if (endTime - startTime > 6000) {
-            return false;
-        }
-
-        try {
-            wait();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(HuntField.class.getName()).log(Level.SEVERE, null, ex);
+        while (board[newPosition.getX()][newPosition.getY()] != null) {
+            try {
+                wait(1000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(HuntField.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
         board[oldPosition.getX()][oldPosition.getY()] = null;
