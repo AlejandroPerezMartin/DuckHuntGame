@@ -56,8 +56,7 @@ public class Hunter extends Thread implements FieldItem {
 
             try {
                 Thread.sleep(random.nextInt(101));
-            }
-            catch (InterruptedException exc) {
+            } catch (InterruptedException exc) {
             }
 
             switch (shotDirection) {

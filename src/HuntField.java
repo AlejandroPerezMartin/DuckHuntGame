@@ -28,6 +28,9 @@ public class HuntField {
     public synchronized boolean setItem(FieldItem fieldItem, Position position) {
         if (checkLimits(position) && board[position.getX()][position.getY()] == null) {
             board[position.getX()][position.getY()] = fieldItem;
+
+            notifyAll();
+
             return true;
         }
 
@@ -36,6 +39,7 @@ public class HuntField {
 
     public synchronized boolean shot(Position position) {
         if (checkLimits(position) && board[position.getX()][position.getY()] != null) {
+            notifyAll();
             return board[position.getX()][position.getY()].fired();
         }
         return false;
@@ -44,12 +48,15 @@ public class HuntField {
     public synchronized boolean removeItem(FieldItem fieldItem, Position position) {
         if (checkLimits(position) && board[position.getX()][position.getY()] == fieldItem) {
             board[position.getX()][position.getY()] = null;
+
+            notifyAll();
+
             return true;
         }
         return false;
     }
 
-    public char getItemType(Position position) {
+    public synchronized char getItemType(Position position) {
         if (checkLimits(position) && board[position.getX()][position.getY()] != null) {
             return board[position.getX()][position.getY()].getType();
         }
@@ -64,24 +71,25 @@ public class HuntField {
 
         long startTime = System.currentTimeMillis();
         long endTime = System.currentTimeMillis();
-        
+
         while ((endTime - startTime <= 6000) && board[newPosition.getX()][newPosition.getY()] != null) {
             endTime = System.currentTimeMillis();
+
             try {
-                wait();
-            }
-            catch (InterruptedException exc) {
+                wait(200);
+            } catch (InterruptedException exc) {
             }
         }
-        
+
         if (endTime - startTime > 6000) {
             return false;
         }
-        
+
         board[oldPosition.getX()][oldPosition.getY()] = null;
         board[newPosition.getX()][newPosition.getY()] = fieldItem;
 
-        notify();
+        notifyAll();
+
         return true;
     }
 
@@ -104,7 +112,7 @@ public class HuntField {
     }
 
     @Override
-    public String toString() {
+    public synchronized String toString() {
         String boardString = "";
 
         for (FieldItem[] fieldItems : board) {
@@ -118,6 +126,7 @@ public class HuntField {
             }
             boardString += "\n";
         }
+
         return boardString;
     }
 }

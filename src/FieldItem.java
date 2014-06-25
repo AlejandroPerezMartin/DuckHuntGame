@@ -1,8 +1,8 @@
 
 interface FieldItem {
 
-    abstract public boolean fired(); // Devuelve verdadero si murió con el disparo
+    abstract public boolean fired(); // Returns true if dies after being shot
 
-    abstract public char getType();  // Devuelve el carácter que representa el tipo de objeto
+    abstract public char getType();  // Returns the character representing the type of object
 
 }

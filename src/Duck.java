@@ -10,7 +10,8 @@ public class Duck extends Thread implements FieldItem {
     public Duck(HuntField huntField) {
         this.alive = true;
         this.huntField = huntField;
-        // Do-while solves error of while loop accessing an invalid position
+
+        // Do-while avoids accessing an invalid position
         do {
             this.position = getRandomPosition();
         } while (huntField.setItem(this, position) == false);
@@ -34,7 +35,6 @@ public class Duck extends Thread implements FieldItem {
         return alive;
     }
 
-    // http://lineadecodigo.com/java/generar-un-numero-aleatorio/
     private Position getRandomPosition() {
         Random random = new Random();
         return new Position(random.nextInt(huntField.getXLength()), random.nextInt(huntField.getYLength()));
@@ -50,8 +50,7 @@ public class Duck extends Thread implements FieldItem {
 
             try {
                 Thread.sleep(random.nextInt(301));
-            }
-            catch (InterruptedException exc) {
+            } catch (InterruptedException exc) {
             }
 
             randomMove = random.nextInt(4);
@@ -80,7 +79,7 @@ public class Duck extends Thread implements FieldItem {
                 position = newPosition;
             }
         }
-        // Remove duck if shot
+        // Remove duck if fired
         huntField.removeItem(this, position);
     }
 }
