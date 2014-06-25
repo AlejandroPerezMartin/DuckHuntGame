@@ -1,4 +1,11 @@
 
+/**
+ *
+ * @author Alejandro Perez Martin
+ * @repository https://github.com/AlejandroPerezMartin/DuckHuntGame
+ *
+ */
+
 public class Main {
 
     public static void printField(HuntField field) {
